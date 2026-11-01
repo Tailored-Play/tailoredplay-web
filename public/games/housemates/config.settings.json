@@ -1,0 +1,75 @@
+{
+  "$schema": "./config.schema.json",
+  "configVersion": "1.0.0",
+  "gameTitle": "SANDS OF TIME — CELESTIAL ASTROLABE",
+  "activeScenePath": "src/games/sands-of-time/scenes/sands-of-time.scene.json",
+  "roundDurationSec": 300,
+  "viewport": {
+    "referenceWidth": 1920,
+    "referenceHeight": 1080,
+    "origin": "center",
+    "maxPixelRatio": 2,
+    "responsive": true,
+    "backgroundColor": 592666,
+    "hideDefaultTopHud": true
+  },
+  "remoteSync": {
+    "httpUrl": "",
+    "wsUrl": "",
+    "timeoutMs": 1200,
+    "autoReconnectWs": false
+  },
+  "kiosk": {
+    "fullscreen": true,
+    "attractLoopTimeoutSec": 45,
+    "sessionDurationSec": 60,
+    "inputDebounceMs": 55,
+    "cursorVisible": true
+  },
+  "juice": {
+    "defaultSpringZeta": 0.42,
+    "defaultSpringOmegaN": 24,
+    "cameraShakeMaxOffsetPx": 28,
+    "cameraShakeMaxAngleRad": 0.045,
+    "cameraShakeFrequency": 25,
+    "cameraTraumaDecayPerSec": 1.4,
+    "whiteFlashFrames": 3,
+    "defaultHitStopMs": 65
+  },
+  "audio": {
+    "masterVolume": 0.9,
+    "sfxVolume": 0.85,
+    "bgmVolume": 0.6,
+    "pitchRandomizationRange": 0.08,
+    "comboPitchStep": 0.05,
+    "maxComboPitchMultiplier": 1.5,
+    "muted": false
+  },
+  "leaderboard": [
+    {
+      "playerName": "ARGON_PRO",
+      "score": 4200,
+      "timestamp": "2026-10-26T20:00:00Z"
+    },
+    {
+      "playerName": "KIOSK_ACE",
+      "score": 3650,
+      "timestamp": "2026-10-26T19:30:00Z"
+    },
+    {
+      "playerName": "FLASH_DEV",
+      "score": 2900,
+      "timestamp": "2026-10-26T19:00:00Z"
+    },
+    {
+      "playerName": "PIXIMASTER",
+      "score": 2150,
+      "timestamp": "2026-10-26T18:15:00Z"
+    },
+    {
+      "playerName": "ROOKIE_01",
+      "score": 1500,
+      "timestamp": "2026-10-26T17:45:00Z"
+    }
+  ]
+}

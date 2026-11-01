@@ -1,0 +1,509 @@
+﻿{
+    "styleSets":  {
+                      "Antique":  {
+                                      "WallDecor":  [
+                                                        "antique_wall_tapestry",
+                                                        "antique_wall_banner",
+                                                        "antique_wall_window"
+                                                    ],
+                                      "Lighting":  [
+                                                       "antique_lamp_candlestand",
+                                                       "antique_lamp_sconce"
+                                                   ],
+                                      "Curio":  [
+                                                    "antique_curio_rug",
+                                                    "antique_curio_teaset",
+                                                    "antique_curio_harp",
+                                                    "antique_curio_chest"
+                                                ]
+                                  },
+                      "Retro":  {
+                                    "WallDecor":  [
+                                                      "retro_wall_clock",
+                                                      "retro_wall_frame",
+                                                      "retro_wall_landscape"
+                                                  ],
+                                    "Lighting":  [
+                                                     "retro_lamp_desk",
+                                                     "retro_lamp_floor"
+                                                 ],
+                                    "Curio":  [
+                                                  "retro_curio_rug",
+                                                  "retro_curio_tree",
+                                                  "retro_curio_teapot",
+                                                  "retro_curio_basket"
+                                              ]
+                                },
+                      "Unusual":  {
+                                      "WallDecor":  [
+                                                        "unusual_wall_window",
+                                                        "unusual_wall_holopanel"
+                                                    ],
+                                      "Lighting":  [
+                                                       "unusual_lamp_beacon",
+                                                       "unusual_lamp_strip"
+                                                   ],
+                                      "Curio":  [
+                                                    "unusual_curio_teleport",
+                                                    "unusual_curio_holotable",
+                                                    "unusual_curio_hydroponic",
+                                                    "unusual_curio_bot"
+                                                ]
+                                  },
+                      "Modern":  {
+                                     "WallDecor":  [
+                                                       "modern_wall_art_abstract",
+                                                       "modern_wall_clock",
+                                                       "modern_wall_plant"
+                                                   ],
+                                     "Lighting":  [
+                                                      "modern_lamp_floor",
+                                                      "modern_lamp_table"
+                                                  ],
+                                     "Curio":  [
+                                                   "modern_curio_rug",
+                                                   "modern_curio_plant",
+                                                   "modern_curio_books",
+                                                   "modern_curio_bowl"
+                                               ]
+                                 }
+                  },
+    "basePath":  "/assets/housemates/nacl1234/",
+    "version":  "1.0.0",
+    "assets":  {
+                   "modern_curio_bowl":  {
+                                             "slot":  "Curio",
+                                             "width":  237,
+                                             "style":  "Modern",
+                                             "height":  208,
+                                             "category":  null,
+                                             "file":  "apartment/bowl-fruit.png"
+                                         },
+                   "base_bedroom_nightstand":  {
+                                                   "slot":  null,
+                                                   "width":  184,
+                                                   "style":  null,
+                                                   "height":  211,
+                                                   "category":  "base_furniture",
+                                                   "file":  "apartment/bedroom-nightstand.png"
+                                               },
+                   "modern_wall_art_abstract":  {
+                                                    "slot":  "WallDecor",
+                                                    "width":  179,
+                                                    "style":  "Modern",
+                                                    "height":  230,
+                                                    "category":  null,
+                                                    "file":  "apartment/artwork-abstract.png"
+                                                },
+                   "antique_wall_tapestry":  {
+                                                 "slot":  "WallDecor",
+                                                 "width":  147,
+                                                 "style":  "Antique",
+                                                 "height":  192,
+                                                 "category":  null,
+                                                 "file":  "dungeon-castle/tapestry-wall.png"
+                                             },
+                   "base_kitchen_chair":  {
+                                              "slot":  null,
+                                              "width":  167,
+                                              "style":  null,
+                                              "height":  237,
+                                              "category":  "base_furniture",
+                                              "file":  "apartment/kitchen-chair.png"
+                                          },
+                   "base_bedroom_wardrobe":  {
+                                                 "slot":  null,
+                                                 "width":  157,
+                                                 "style":  null,
+                                                 "height":  256,
+                                                 "category":  "base_furniture",
+                                                 "file":  "apartment/bedroom-wardrobe.png"
+                                             },
+                   "base_kitchen_stove":  {
+                                              "slot":  null,
+                                              "width":  219,
+                                              "style":  null,
+                                              "height":  256,
+                                              "category":  "base_furniture",
+                                              "file":  "apartment/kitchen-stove.png"
+                                          },
+                   "modern_lamp_floor":  {
+                                             "slot":  "Lighting",
+                                             "width":  104,
+                                             "style":  "Modern",
+                                             "height":  256,
+                                             "category":  null,
+                                             "file":  "apartment/lamp-floor.png"
+                                         },
+                   "base_kitchen_sink":  {
+                                             "slot":  null,
+                                             "width":  250,
+                                             "style":  null,
+                                             "height":  256,
+                                             "category":  "base_furniture",
+                                             "file":  "apartment/kitchen-sink.png"
+                                         },
+                   "base_bathroom_sink":  {
+                                              "slot":  null,
+                                              "width":  245,
+                                              "style":  null,
+                                              "height":  256,
+                                              "category":  "base_furniture",
+                                              "file":  "apartment/bathroom-sink.png"
+                                          },
+                   "retro_curio_basket":  {
+                                              "slot":  "Curio",
+                                              "width":  222,
+                                              "style":  "Retro",
+                                              "height":  215,
+                                              "category":  null,
+                                              "file":  "apartment/basket-storage.png"
+                                          },
+                   "base_kitchen_table":  {
+                                              "slot":  null,
+                                              "width":  256,
+                                              "style":  null,
+                                              "height":  226,
+                                              "category":  "base_furniture",
+                                              "file":  "apartment/kitchen-table.png"
+                                          },
+                   "base_living_tv":  {
+                                          "slot":  null,
+                                          "width":  244,
+                                          "style":  null,
+                                          "height":  237,
+                                          "category":  "base_furniture",
+                                          "file":  "apartment/living-tv.png"
+                                      },
+                   "antique_lamp_sconce":  {
+                                               "slot":  "Lighting",
+                                               "width":  177,
+                                               "style":  "Antique",
+                                               "height":  192,
+                                               "category":  null,
+                                               "file":  "dungeon-castle/candelabrum-crest.png"
+                                           },
+                   "base_bathroom_mat":  {
+                                             "slot":  null,
+                                             "width":  256,
+                                             "style":  null,
+                                             "height":  152,
+                                             "category":  "base_furniture",
+                                             "file":  "apartment/bathroom-mat.png"
+                                         },
+                   "antique_wall_window":  {
+                                               "slot":  "WallDecor",
+                                               "width":  139,
+                                               "style":  "Antique",
+                                               "height":  192,
+                                               "category":  null,
+                                               "file":  "dungeon-castle/window-stained-glass.png"
+                                           },
+                   "antique_curio_chest":  {
+                                               "slot":  "Curio",
+                                               "width":  178,
+                                               "style":  "Antique",
+                                               "height":  192,
+                                               "category":  null,
+                                               "file":  "dungeon-castle/chest-gold.png"
+                                           },
+                   "antique_curio_teaset":  {
+                                                "slot":  "Curio",
+                                                "width":  192,
+                                                "style":  "Antique",
+                                                "height":  163,
+                                                "category":  null,
+                                                "file":  "feudal-japan/tea-ceremony-set.png"
+                                            },
+                   "unusual_curio_teleport":  {
+                                                  "slot":  "Curio",
+                                                  "width":  192,
+                                                  "style":  "Unusual",
+                                                  "height":  132,
+                                                  "category":  null,
+                                                  "file":  "scifi/teleport-pad.png"
+                                              },
+                   "base_living_coffee_table":  {
+                                                    "slot":  null,
+                                                    "width":  256,
+                                                    "style":  null,
+                                                    "height":  180,
+                                                    "category":  "base_furniture",
+                                                    "file":  "apartment/living-coffee-table.png"
+                                                },
+                   "retro_wall_frame":  {
+                                            "slot":  "WallDecor",
+                                            "width":  184,
+                                            "style":  "Retro",
+                                            "height":  214,
+                                            "category":  null,
+                                            "file":  "apartment/frame-photo.png"
+                                        },
+                   "retro_lamp_floor":  {
+                                            "slot":  "Lighting",
+                                            "width":  101,
+                                            "style":  "Retro",
+                                            "height":  256,
+                                            "category":  null,
+                                            "file":  "office/lamp-floor.png"
+                                        },
+                   "antique_wall_banner":  {
+                                               "slot":  "WallDecor",
+                                               "width":  192,
+                                               "style":  "Antique",
+                                               "height":  154,
+                                               "category":  null,
+                                               "file":  "feudal-japan/nobori-banner.png"
+                                           },
+                   "retro_curio_teapot":  {
+                                              "slot":  "Curio",
+                                              "width":  223,
+                                              "style":  "Retro",
+                                              "height":  194,
+                                              "category":  null,
+                                              "file":  "apartment/teapot.png"
+                                          },
+                   "base_kitchen_fridge":  {
+                                               "slot":  null,
+                                               "width":  161,
+                                               "style":  null,
+                                               "height":  256,
+                                               "category":  "base_furniture",
+                                               "file":  "apartment/kitchen-fridge.png"
+                                           },
+                   "antique_lamp_candlestand":  {
+                                                    "slot":  "Lighting",
+                                                    "width":  101,
+                                                    "style":  "Antique",
+                                                    "height":  192,
+                                                    "category":  null,
+                                                    "file":  "dungeon-castle/candle-stand.png"
+                                                },
+                   "modern_lamp_table":  {
+                                             "slot":  "Lighting",
+                                             "width":  157,
+                                             "style":  "Modern",
+                                             "height":  238,
+                                             "category":  null,
+                                             "file":  "apartment/lamp-table.png"
+                                         },
+                   "modern_curio_rug":  {
+                                            "slot":  "Curio",
+                                            "width":  256,
+                                            "style":  "Modern",
+                                            "height":  149,
+                                            "category":  null,
+                                            "file":  "apartment/rug-rectangular.png"
+                                        },
+                   "base_bathroom_toilet":  {
+                                                "slot":  null,
+                                                "width":  173,
+                                                "style":  null,
+                                                "height":  256,
+                                                "category":  "base_furniture",
+                                                "file":  "apartment/bathroom-toilet.png"
+                                            },
+                   "unusual_curio_holotable":  {
+                                                   "slot":  "Curio",
+                                                   "width":  192,
+                                                   "style":  "Unusual",
+                                                   "height":  163,
+                                                   "category":  null,
+                                                   "file":  "scifi/holo-table.png"
+                                               },
+                   "unusual_curio_hydroponic":  {
+                                                    "slot":  "Curio",
+                                                    "width":  124,
+                                                    "style":  "Unusual",
+                                                    "height":  192,
+                                                    "category":  null,
+                                                    "file":  "scifi/hydroponic-pot.png"
+                                                },
+                   "modern_curio_books":  {
+                                              "slot":  "Curio",
+                                              "width":  219,
+                                              "style":  "Modern",
+                                              "height":  238,
+                                              "category":  null,
+                                              "file":  "apartment/books-stack.png"
+                                          },
+                   "base_living_sofa":  {
+                                            "slot":  null,
+                                            "width":  256,
+                                            "style":  null,
+                                            "height":  183,
+                                            "category":  "base_furniture",
+                                            "file":  "apartment/living-sofa.png"
+                                        },
+                   "base_living_tv_stand":  {
+                                                "slot":  null,
+                                                "width":  256,
+                                                "style":  null,
+                                                "height":  166,
+                                                "category":  "base_furniture",
+                                                "file":  "apartment/living-tv-stand.png"
+                                            },
+                   "base_bathroom_tub":  {
+                                             "slot":  null,
+                                             "width":  256,
+                                             "style":  null,
+                                             "height":  224,
+                                             "category":  "base_furniture",
+                                             "file":  "apartment/bathroom-tub.png"
+                                         },
+                   "retro_curio_rug":  {
+                                           "slot":  "Curio",
+                                           "width":  256,
+                                           "style":  "Retro",
+                                           "height":  175,
+                                           "category":  null,
+                                           "file":  "apartment/rug-round.png"
+                                       },
+                   "modern_curio_plant":  {
+                                              "slot":  "Curio",
+                                              "width":  214,
+                                              "style":  "Modern",
+                                              "height":  256,
+                                              "category":  null,
+                                              "file":  "apartment/plant-monstera.png"
+                                          },
+                   "antique_curio_harp":  {
+                                              "slot":  "Curio",
+                                              "width":  126,
+                                              "style":  "Antique",
+                                              "height":  192,
+                                              "category":  null,
+                                              "file":  "dungeon-castle/harp-gilded.png"
+                                          },
+                   "unusual_wall_holopanel":  {
+                                                  "slot":  "WallDecor",
+                                                  "width":  158,
+                                                  "style":  "Unusual",
+                                                  "height":  192,
+                                                  "category":  null,
+                                                  "file":  "scifi/holo-globe-device.png"
+                                              },
+                   "modern_wall_clock":  {
+                                             "slot":  "WallDecor",
+                                             "width":  205,
+                                             "style":  "Modern",
+                                             "height":  213,
+                                             "category":  null,
+                                             "file":  "apartment/clock-wall.png"
+                                         },
+                   "retro_wall_clock":  {
+                                            "slot":  "WallDecor",
+                                            "width":  224,
+                                            "style":  "Retro",
+                                            "height":  231,
+                                            "category":  null,
+                                            "file":  "office/clock-wall.png"
+                                        },
+                   "unusual_lamp_beacon":  {
+                                               "slot":  "Lighting",
+                                               "width":  139,
+                                               "style":  "Unusual",
+                                               "height":  192,
+                                               "category":  null,
+                                               "file":  "scifi/alarm-beacon.png"
+                                           },
+                   "antique_curio_rug":  {
+                                             "slot":  "Curio",
+                                             "width":  112,
+                                             "style":  "Antique",
+                                             "height":  192,
+                                             "category":  null,
+                                             "file":  "dungeon-castle/rug-royal.png"
+                                         },
+                   "base_bedroom_bed":  {
+                                            "slot":  null,
+                                            "width":  253,
+                                            "style":  null,
+                                            "height":  256,
+                                            "category":  "base_furniture",
+                                            "file":  "apartment/bedroom-bed.png"
+                                        },
+                   "modern_wall_plant":  {
+                                             "slot":  "WallDecor",
+                                             "width":  187,
+                                             "style":  "Modern",
+                                             "height":  256,
+                                             "category":  null,
+                                             "file":  "apartment/plant-hanging.png"
+                                         },
+                   "unusual_wall_window":  {
+                                               "slot":  "WallDecor",
+                                               "width":  189,
+                                               "style":  "Unusual",
+                                               "height":  192,
+                                               "category":  null,
+                                               "file":  "scifi/window-space.png"
+                                           },
+                   "retro_curio_tree":  {
+                                            "slot":  "Curio",
+                                            "width":  200,
+                                            "style":  "Retro",
+                                            "height":  256,
+                                            "category":  null,
+                                            "file":  "office/tree-indoor.png"
+                                        },
+                   "retro_lamp_desk":  {
+                                           "slot":  "Lighting",
+                                           "width":  201,
+                                           "style":  "Retro",
+                                           "height":  256,
+                                           "category":  null,
+                                           "file":  "office/lamp-desk.png"
+                                       },
+                   "unusual_curio_bot":  {
+                                             "slot":  "Curio",
+                                             "width":  182,
+                                             "style":  "Unusual",
+                                             "height":  192,
+                                             "category":  null,
+                                             "file":  "scifi/companion-bot.png"
+                                         },
+                   "retro_wall_landscape":  {
+                                                "slot":  "WallDecor",
+                                                "width":  256,
+                                                "style":  "Retro",
+                                                "height":  185,
+                                                "category":  null,
+                                                "file":  "apartment/artwork-landscape.png"
+                                            },
+                   "unusual_lamp_strip":  {
+                                              "slot":  "Lighting",
+                                              "width":  187,
+                                              "style":  "Unusual",
+                                              "height":  192,
+                                              "category":  null,
+                                              "file":  "scifi/floor-glow-strip.png"
+                                          }
+               },
+    "baseFurniture":  {
+                          "Kitchen":  [
+                                          "base_kitchen_fridge",
+                                          "base_kitchen_stove",
+                                          "base_kitchen_sink",
+                                          "base_kitchen_table",
+                                          "base_kitchen_chair"
+                                      ],
+                          "Bedroom":  [
+                                          "base_bedroom_bed",
+                                          "base_bedroom_wardrobe",
+                                          "base_bedroom_nightstand"
+                                      ],
+                          "Bathroom":  [
+                                           "base_bathroom_toilet",
+                                           "base_bathroom_sink",
+                                           "base_bathroom_tub",
+                                           "base_bathroom_mat"
+                                       ],
+                          "LivingRoom":  [
+                                             "base_living_sofa",
+                                             "base_living_coffee_table",
+                                             "base_living_tv_stand",
+                                             "base_living_tv"
+                                         ]
+                      }
+}
