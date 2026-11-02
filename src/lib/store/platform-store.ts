@@ -381,49 +381,69 @@ export async function ensureAnonymousOrCurrentProfile(): Promise<Profile> {
   const supabase = getSupabaseBrowserClient();
 
   if (supabase) {
-    const {
-      data: { session },
-    } = await supabase.auth.getSession();
+    try {
+      const {
+        data: { session },
+        error: sessionError,
+      } = await supabase.auth.getSession();
 
-    let userId = session?.user?.id;
-    let isAnon = session?.user?.is_anonymous ?? true;
-    let email = session?.user?.email ?? null;
-
-    if (!userId) {
-      const { data: anonData, error: anonError } =
-        await supabase.auth.signInAnonymously();
-      if (!anonError && anonData.user) {
-        userId = anonData.user.id;
-        isAnon = anonData.user.is_anonymous ?? true;
-        email = anonData.user.email ?? null;
-      }
-    }
-
-    if (userId) {
-      const { data: existingProfile } = await supabase
-        .from("profiles")
-        .select("*")
-        .eq("id", userId)
-        .maybeSingle();
-
-      if (existingProfile) {
-        return { ...existingProfile, email } as Profile;
+      if (sessionError) {
+        console.warn("[PlatformStore] Supabase getSession error:", sessionError);
       }
 
-      const username = generateCorporateUsername();
-      const newProfile: Profile = {
-        id: userId,
-        is_anonymous: isAnon,
-        username,
-        avatar_url: generateAvatarUrl(username),
-        role: "user",
-        ad_free_until: null,
-        email,
-        created_at: new Date().toISOString(),
-      };
+      let userId = session?.user?.id;
+      let isAnon = session?.user?.is_anonymous ?? true;
+      let email = session?.user?.email ?? null;
 
-      await supabase.from("profiles").upsert(newProfile);
-      return newProfile;
+      if (!userId) {
+        const { data: anonData, error: anonError } =
+          await supabase.auth.signInAnonymously();
+        if (anonError) {
+          console.error("[PlatformStore] Supabase anonymous sign-in error:", anonError);
+        } else if (anonData?.user) {
+          userId = anonData.user.id;
+          isAnon = anonData.user.is_anonymous ?? true;
+          email = anonData.user.email ?? null;
+        }
+      }
+
+      if (userId) {
+        const { data: existingProfile, error: profileFetchError } = await supabase
+          .from("profiles")
+          .select("*")
+          .eq("id", userId)
+          .maybeSingle();
+
+        if (profileFetchError) {
+          console.error("[PlatformStore] Failed fetching existing profile:", profileFetchError);
+        }
+
+        if (existingProfile) {
+          return { ...existingProfile, email } as Profile;
+        }
+
+        const username = generateCorporateUsername();
+        const newProfile: Profile = {
+          id: userId,
+          is_anonymous: isAnon,
+          username,
+          avatar_url: generateAvatarUrl(username),
+          role: "user",
+          ad_free_until: null,
+          email,
+          created_at: new Date().toISOString(),
+        };
+
+        const { error: upsertError } = await supabase
+          .from("profiles")
+          .upsert(newProfile);
+        if (upsertError) {
+          console.error("[PlatformStore] Failed upserting new profile:", upsertError);
+        }
+        return newProfile;
+      }
+    } catch (authErr) {
+      console.error("[PlatformStore] Unexpected Supabase auth error:", authErr);
     }
   }
 
@@ -828,18 +848,26 @@ export async function createParty(params: {
 
   const supabase = getSupabaseBrowserClient();
   if (supabase) {
-    const { data: insertedParty } = await supabase
+    const { data: insertedParty, error: partyInsertError } = await supabase
       .from("parties")
       .insert(newParty)
       .select("*")
       .single();
+
+    if (partyInsertError) {
+      console.error("[PlatformStore] Supabase createParty error:", partyInsertError);
+    }
+
     if (insertedParty) {
-      await supabase.from("party_members").upsert({
+      const { error: memberError } = await supabase.from("party_members").upsert({
         party_id: insertedParty.id,
         user_id: params.hostProfile.id,
         role: "host",
         is_connected: true,
       });
+      if (memberError) {
+        console.error("[PlatformStore] Supabase host member upsert error:", memberError);
+      }
       return insertedParty as Party;
     }
   }
@@ -859,11 +887,15 @@ export async function getPartyByInviteCode(
   const normalized = inviteCode.trim().toUpperCase();
   const supabase = getSupabaseBrowserClient();
   if (supabase) {
-    const { data } = await supabase
+    const { data, error } = await supabase
       .from("parties")
       .select("*")
       .eq("invite_code", normalized)
       .maybeSingle();
+
+    if (error) {
+      console.error("[PlatformStore] getPartyByInviteCode error:", error);
+    }
     if (data) return data as Party;
   }
 
@@ -876,10 +908,13 @@ export async function getPartyByInviteCode(
 export async function getAllParties(): Promise<Party[]> {
   const supabase = getSupabaseBrowserClient();
   if (supabase) {
-    const { data } = await supabase
+    const { data, error } = await supabase
       .from("parties")
       .select("*")
       .order("created_at", { ascending: false });
+    if (error) {
+      console.error("[PlatformStore] getAllParties error:", error);
+    }
     if (data && data.length > 0) return data as Party[];
   }
   return readLocal<Party[]>(STORAGE_KEYS.PARTIES, []);
@@ -893,12 +928,15 @@ export async function joinPartyAsMember(
   const supabase = getSupabaseBrowserClient();
 
   if (supabase) {
-    await supabase.from("party_members").upsert({
+    const { error: joinError } = await supabase.from("party_members").upsert({
       party_id: party.id,
       user_id: profile.id,
       role,
       is_connected: true,
     });
+    if (joinError) {
+      console.error("[PlatformStore] Supabase joinPartyAsMember error:", joinError);
+    }
   }
 
   const members = readLocal<PartyMember[]>(STORAGE_KEYS.PARTY_MEMBERS, []);
