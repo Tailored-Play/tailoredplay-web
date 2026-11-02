@@ -145,7 +145,13 @@ export default function PartyRoomPage() {
 
   const currentGame = useMemo(() => {
     if (!party?.current_game_id) return null;
-    return games.find((g) => g.id === party.current_game_id) || null;
+    return (
+      games.find(
+        (g) =>
+          g.id === party.current_game_id ||
+          g.slug === party.current_game_id
+      ) || null
+    );
   }, [party?.current_game_id, games]);
 
   const adFreeResolution = useMemo(() => {

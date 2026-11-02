@@ -200,10 +200,18 @@ export function subscribeToPlatformEvents(
   };
 }
 
+interface PartyChannelState {
+  channel: ReturnType<NonNullable<ReturnType<typeof getSupabaseBrowserClient>>["channel"]>;
+  refCount: number;
+  callbacks: Set<(packet: BroadcastEventPacket) => void>;
+}
+
+const activePartyChannels = new Map<string, PartyChannelState>();
+
 /**
  * Subscribes to real-time events for a specific party room across distinct devices.
- * Uses Supabase Realtime channels (postgres_changes + broadcast) when Supabase is configured,
- * and falls back to multi-tab BroadcastChannel / localStorage events.
+ * Uses a multiplexed, ref-counted Supabase Realtime channel (postgres_changes + broadcast)
+ * to avoid duplicate callback attachment errors, and falls back to multi-tab BroadcastChannel.
  */
 export function subscribeToPartyRealtime(
   partyId: string,
@@ -220,84 +228,113 @@ export function subscribeToPartyRealtime(
     return unsubPlatform;
   }
 
-  const channel = supabase
-    .channel(`party_room_${partyId}`)
-    .on(
-      "postgres_changes",
-      {
-        event: "*",
-        schema: "public",
-        table: "parties",
-        filter: `id=eq.${partyId}`,
-      },
-      (payload) => {
-        callback({
-          type: "PARTY_STATE_CHANGED",
-          partyId,
-          payload: payload.new,
-        });
-      }
-    )
-    .on(
-      "postgres_changes",
-      {
-        event: "*",
-        schema: "public",
-        table: "party_members",
-        filter: `party_id=eq.${partyId}`,
-      },
-      (payload) => {
-        callback({
-          type: "PARTY_STATE_CHANGED",
-          partyId,
-          payload,
-        });
-      }
-    )
-    .on(
-      "postgres_changes",
-      {
-        event: "INSERT",
-        schema: "public",
-        table: "scores",
-        filter: `party_id=eq.${partyId}`,
-      },
-      (payload) => {
-        callback({
-          type: "STORE_UPDATED",
-          key: STORAGE_KEYS.SCORES,
-          partyId,
-          payload: payload.new,
-        });
-      }
-    )
-    .on(
-      "postgres_changes",
-      {
-        event: "INSERT",
-        schema: "public",
-        table: "party_messages",
-        filter: `party_id=eq.${partyId}`,
-      },
-      (payload) => {
-        callback({
-          type: "STORE_UPDATED",
-          key: STORAGE_KEYS.MESSAGES,
-          partyId,
-          payload: payload.new,
-        });
-      }
-    )
-    .on("broadcast", { event: "party_signal" }, (event) => {
-      if (event.payload) {
-        callback(event.payload as BroadcastEventPacket);
-      }
-    })
-    .subscribe();
+  const channelKey = `party_room_${partyId}`;
+  let state = activePartyChannels.get(channelKey);
+
+  if (state) {
+    // Channel already subscribed - attach listener to shared subscriber set
+    state.refCount++;
+    state.callbacks.add(callback);
+  } else {
+    const callbacks = new Set<(packet: BroadcastEventPacket) => void>([callback]);
+    const channel = supabase.channel(channelKey);
+
+    channel
+      .on(
+        "postgres_changes",
+        {
+          event: "*",
+          schema: "public",
+          table: "parties",
+          filter: `id=eq.${partyId}`,
+        },
+        (payload) => {
+          const packet: BroadcastEventPacket = {
+            type: "PARTY_STATE_CHANGED",
+            partyId,
+            payload: payload.new,
+          };
+          callbacks.forEach((cb) => cb(packet));
+        }
+      )
+      .on(
+        "postgres_changes",
+        {
+          event: "*",
+          schema: "public",
+          table: "party_members",
+          filter: `party_id=eq.${partyId}`,
+        },
+        (payload) => {
+          const packet: BroadcastEventPacket = {
+            type: "PARTY_STATE_CHANGED",
+            partyId,
+            payload,
+          };
+          callbacks.forEach((cb) => cb(packet));
+        }
+      )
+      .on(
+        "postgres_changes",
+        {
+          event: "INSERT",
+          schema: "public",
+          table: "scores",
+          filter: `party_id=eq.${partyId}`,
+        },
+        (payload) => {
+          const packet: BroadcastEventPacket = {
+            type: "STORE_UPDATED",
+            key: STORAGE_KEYS.SCORES,
+            partyId,
+            payload: payload.new,
+          };
+          callbacks.forEach((cb) => cb(packet));
+        }
+      )
+      .on(
+        "postgres_changes",
+        {
+          event: "INSERT",
+          schema: "public",
+          table: "party_messages",
+          filter: `party_id=eq.${partyId}`,
+        },
+        (payload) => {
+          const packet: BroadcastEventPacket = {
+            type: "STORE_UPDATED",
+            key: STORAGE_KEYS.MESSAGES,
+            partyId,
+            payload: payload.new,
+          };
+          callbacks.forEach((cb) => cb(packet));
+        }
+      )
+      .on("broadcast", { event: "party_signal" }, (event) => {
+        if (event.payload) {
+          const packet = event.payload as BroadcastEventPacket;
+          callbacks.forEach((cb) => cb(packet));
+        }
+      })
+      .subscribe();
+
+    state = { channel, refCount: 1, callbacks };
+    activePartyChannels.set(channelKey, state);
+  }
 
   return () => {
     unsubPlatform();
-    supabase.removeChannel(channel);
+    const currentState = activePartyChannels.get(channelKey);
+    if (!currentState) return;
+
+    currentState.callbacks.delete(callback);
+    currentState.refCount--;
+
+    if (currentState.refCount <= 0) {
+      activePartyChannels.delete(channelKey);
+      currentState.channel.unsubscribe();
+      supabase.removeChannel(currentState.channel);
+    }
   };
 }
 
@@ -314,7 +351,9 @@ export async function broadcastPartySignal(
   const supabase = getSupabaseBrowserClient();
   if (supabase) {
     try {
-      const channel = supabase.channel(`party_room_${partyId}`);
+      const channelKey = `party_room_${partyId}`;
+      const state = activePartyChannels.get(channelKey);
+      const channel = state?.channel ?? supabase.channel(channelKey);
       await channel.send({
         type: "broadcast",
         event: "party_signal",
