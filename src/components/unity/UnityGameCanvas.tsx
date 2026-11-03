@@ -475,6 +475,7 @@ export function UnityGameCanvas({
           `https://api.dicebear.com/9.x/bottts-neutral/svg?seed=${m.user_id}`,
         isHost: m.role === "host",
       })),
+      isPrerollActive: adBreakState.isOpen && adBreakState.placement === "preroll",
     };
   }, [
     party,
@@ -485,6 +486,8 @@ export function UnityGameCanvas({
     currentUser,
     isHost,
     members,
+    adBreakState.isOpen,
+    adBreakState.placement,
   ]);
 
   // Sync ad status updates live to Unity
@@ -640,6 +643,9 @@ export function UnityGameCanvas({
             "InitializeSession",
             JSON.stringify(payload)
           );
+          if (adBreakState.isOpen) {
+            dispatchToUnity("TailoredManager", "PauseForExternalAd", adBreakState.placement);
+          }
           break;
         }
         case "PublishRelayCode": {
@@ -673,6 +679,7 @@ export function UnityGameCanvas({
           } else {
             lastCommercialAdTimestampRef.current = now;
             setAdBreakState({ isOpen: true, placement, adKind: "commercial" });
+            dispatchToUnity("TailoredManager", "PauseForExternalAd", placement);
 
             if (isHost) {
               broadcastPartySignal(party.id, {
@@ -736,6 +743,8 @@ export function UnityGameCanvas({
     onPublishRelayCode,
     onSubmitScore,
     party.id,
+    adBreakState.isOpen,
+    adBreakState.placement,
   ]);
 
   // Forward incoming Realtime Relay Codes & Custom Party Events to Unity
@@ -850,20 +859,23 @@ export function UnityGameCanvas({
         "CompleteRewardedAd",
         JSON.stringify({ placement, rewarded: true, vipInstantGrant: false })
       );
-    } else {
-      dispatchToUnity("TailoredManager", "ResumeFromAd", "true");
     }
+    dispatchToUnity("TailoredManager", "ResumeFromAd", "true");
   }, [adBreakState.adKind, adBreakState.placement, dispatchToUnity]);
 
   const handleAdDismissedEarly = useCallback(() => {
+    const wasRewarded = adBreakState.adKind === "rewarded";
     const placement = adBreakState.placement;
     setAdBreakState((prev) => ({ ...prev, isOpen: false }));
-    dispatchToUnity(
-      "TailoredManager",
-      "CompleteRewardedAd",
-      JSON.stringify({ placement, rewarded: false, vipInstantGrant: false })
-    );
-  }, [adBreakState.placement, dispatchToUnity]);
+    if (wasRewarded) {
+      dispatchToUnity(
+        "TailoredManager",
+        "CompleteRewardedAd",
+        JSON.stringify({ placement, rewarded: false, vipInstantGrant: false })
+      );
+    }
+    dispatchToUnity("TailoredManager", "ResumeFromAd", "true");
+  }, [adBreakState.adKind, adBreakState.placement, dispatchToUnity]);
 
   const emitSimulatedUnityEvent = (
     type: TailoredUnityEventDetail["type"],

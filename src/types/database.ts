@@ -141,6 +141,7 @@ export interface TailoredInitializeSessionPayload {
   roundNumber: number;
   currentUser: TailoredBridgeUser;
   partyMembers: TailoredBridgeUser[];
+  isPrerollActive?: boolean;
 }
 
 export interface TailoredAdStatusPayload {
